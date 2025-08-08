@@ -1,0 +1,6 @@
+{
+  "joke": "https://api.dreaded.site/api/chatgpt?text=hi",
+  "cat-fact": "https://catfact.ninja/fact",
+  "user-list": "https://jsonplaceholder.typicode.com/users",
+  "bored": "https://www.boredapi.com/api/activity"
+}
