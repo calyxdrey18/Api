@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My API Gateway</title>
     
-    <!-- CSS STYLES ARE EMBEDDED HERE -->
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    
+    <!-- CSS is now embedded directly in the HTML file -->
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -15,33 +18,48 @@
             margin: 0;
             padding: 20px;
         }
+
         header {
             text-align: center;
             margin-bottom: 40px;
             border-bottom: 2px solid #e0e0e0;
             padding-bottom: 20px;
         }
-        header h1 { color: #2c3e50; }
+
+        header h1 {
+            color: #2c3e50;
+        }
+
         main {
             max-width: 800px;
             margin: 0 auto;
             display: grid;
-            gap: 25px;
+            gap: 20px;
         }
+
         .api-card {
             background: #fff;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             padding: 20px;
+            display: flex;
+            flex-direction: column;
         }
-        .api-card h2 { margin-top: 0; color: #3498db; }
+
+        .api-card h2 {
+            margin-top: 0;
+            color: #3498db;
+        }
+
         code {
             background-color: #ecf0f1;
             color: #e74c3c;
-            padding: 2px 6px;
+            padding: 3px 8px;
             border-radius: 4px;
+            font-size: 1.1em;
         }
-        button {
+
+        .action-btn {
             background-color: #3498db;
             color: white;
             border: none;
@@ -50,8 +68,13 @@
             cursor: pointer;
             font-size: 16px;
             transition: background-color 0.3s;
+            margin-top: 15px;
         }
-        button:hover { background-color: #2980b9; }
+
+        .action-btn:hover {
+            background-color: #2980b9;
+        }
+
         .result-box {
             background-color: #2c3e50;
             color: #f1c40f;
@@ -61,84 +84,110 @@
             white-space: pre-wrap;
             word-wrap: break-word;
             min-height: 50px;
+            flex-grow: 1;
         }
-        input[type="text"] {
-            padding: 8px;
-            margin-right: 10px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-            font-size: 16px;
+
+        .endpoint-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .endpoint-container p {
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .copy-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            color: #6c757d;
+            padding: 5px;
+            line-height: 1;
+            transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
+        }
+
+        .copy-btn:hover {
+            color: #2c3e50;
+            transform: scale(1.1);
+        }
+
+        .copy-btn .fa-check {
+            color: #28a745; /* Green color for success */
         }
     </style>
 </head>
 <body>
-
     <header>
         <h1>My Custom API Website</h1>
-        <p>This website proxies requests to other APIs. Add your own in <code>api-config.json</code>!</p>
+        <p>This website proxies requests to other APIs. All API calls are made to this server's <code>/api/...</code> endpoints.</p>
     </header>
 
-    <main id="api-container">
-        <!-- API cards will be dynamically added here by JavaScript -->
+    <main>
+        <div class="api-card">
+            <h2>Get a Random Joke</h2>
+            <div class="endpoint-container">
+                <p>Your Endpoint:</p>
+                <code>/api/joke</code>
+                <button class="copy-btn" data-endpoint="/api/joke" title="Copy URL">
+                    <i class="fa-solid fa-copy"></i>
+                </button>
+            </div>
+            <button class="action-btn" id="joke-btn">Get Joke</button>
+            <pre id="joke-result" class="result-box"></pre>
+        </div>
+
+        <div class="api-card">
+            <h2>Get a Cat Fact</h2>
+            <div class="endpoint-container">
+                <p>Your Endpoint:</p>
+                <code>/api/cat-fact</code>
+                <button class="copy-btn" data-endpoint="/api/cat-fact" title="Copy URL">
+                    <i class="fa-solid fa-copy"></i>
+                </button>
+            </div>
+            <button class="action-btn" id="cat-fact-btn">Get Cat Fact</button>
+            <pre id="cat-fact-result" class="result-box"></pre>
+        </div>
+
+        <div class="api-card">
+            <h2>Get a List of Users</h2>
+            <div class="endpoint-container">
+                <p>Your Endpoint:</p>
+                <code>/api/user-list</code>
+                <button class="copy-btn" data-endpoint="/api/user-list" title="Copy URL">
+                    <i class="fa-solid fa-copy"></i>
+                </button>
+            </div>
+            <button class="action-btn" id="user-list-btn">Get Users</button>
+            <pre id="user-list-result" class="result-box"></pre>
+        </div>
+
+        <div class="api-card">
+            <h2>Find something to do</h2>
+            <div class="endpoint-container">
+                <p>Your Endpoint:</p>
+                <code>/api/bored</code>
+                <button class="copy-btn" data-endpoint="/api/bored" title="Copy URL">
+                    <i class="fa-solid fa-copy"></i>
+                </button>
+            </div>
+            <button class="action-btn" id="bored-btn">Get Activity</button>
+            <pre id="bored-result" class="result-box"></pre>
+        </div>
     </main>
-    
-    <!-- JAVASCRIPT LOGIC IS EMBEDDED HERE -->
+
+    <!-- JavaScript is now embedded directly in the HTML file -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            
-            // --- Configuration for the Frontend ---
-            // This array defines the UI cards. To add a new API, add an object here.
-            const apiEndpoints = [
-                {
-                    title: 'Call gpt api',
-                    description: 'Calls our endpoint: <code>/api/joke</code>',
-                    buttonText: 'Test API',
-                    endpoint: 'joke', // This MUST match the key in api-config.json
-                    resultId: 'joke-result'
-                },
-                {
-                    title: 'Get a Cat Fact',
-                    description: 'Calls our endpoint: <code>/api/cat-fact</code>',
-                    buttonText: 'Get Cat Fact',
-                    endpoint: 'cat-fact',
-                    resultId: 'cat-fact-result'
-                },
-                {
-                    title: 'Get a List of Users',
-                    description: 'Calls our endpoint: <code>/api/user-list</code>',
-                    buttonText: 'Get Users',
-                    endpoint: 'user-list',
-                    resultId: 'user-list-result'
-                },
-                {
-                    title: 'Find Something to Do',
-                    description: 'Calls our endpoint: <code>/api/bored</code>',
-                    buttonText: 'Get Activity',
-                    endpoint: 'bored',
-                    resultId: 'bored-result'
-                }
-            ];
 
-            const apiContainer = document.getElementById('api-container');
-
-            // --- Function to create the HTML for each API card ---
-            const createApiCard = (api) => {
-                const card = document.createElement('div');
-                card.className = 'api-card';
-                card.innerHTML = `
-                    <h2>${api.title}</h2>
-                    <p>${api.description}</p>
-                    <button id="btn-${api.resultId}">${api.buttonText}</button>
-                    <pre id="${api.resultId}" class="result-box">Click the button to see the result...</pre>
-                `;
-                apiContainer.appendChild(card);
-                
-                // Add the event listener for the button
-                document.getElementById(`btn-${api.resultId}`).addEventListener('click', () => {
-                    fetchData(api.endpoint, api.resultId);
-                });
-            };
-            
             // --- Helper function to fetch data and display it ---
             const fetchData = async (endpoint, resultElementId) => {
                 const resultBox = document.getElementById(resultElementId);
@@ -146,22 +195,57 @@
                 
                 try {
                     const response = await fetch(`/api/${endpoint}`);
+                    
                     if (!response.ok) {
-                        throw new Error(`API returned an error! Status: ${response.status}`);
+                        const errorData = await response.json();
+                        throw new Error(`HTTP error! status: ${response.status} - ${errorData.error || 'Unknown error'}`);
                     }
+                    
                     const data = await response.json();
-                    resultBox.textContent = JSON.stringify(data, null, 2); // Pretty-print JSON
+                    resultBox.textContent = JSON.stringify(data, null, 2);
+                    
                 } catch (error) {
                     console.error('Fetch error:', error);
                     resultBox.textContent = `Error: ${error.message}`;
                 }
             };
 
-            // --- Build the UI ---
-            apiEndpoints.forEach(api => createApiCard(api));
+            // --- Attach event listeners to action buttons ---
+            document.getElementById('joke-btn').addEventListener('click', () => fetchData('joke', 'joke-result'));
+            document.getElementById('cat-fact-btn').addEventListener('click', () => fetchData('cat-fact', 'cat-fact-result'));
+            document.getElementById('user-list-btn').addEventListener('click', () => fetchData('user-list', 'user-list-result'));
+            document.getElementById('bored-btn').addEventListener('click', () => fetchData('bored', 'bored-result'));
 
+            
+            // --- Logic for copy-to-clipboard buttons ---
+            const allCopyButtons = document.querySelectorAll('.copy-btn');
+
+            allCopyButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const endpoint = button.dataset.endpoint;
+                    const fullUrl = `${window.location.origin}${endpoint}`;
+
+                    navigator.clipboard.writeText(fullUrl).then(() => {
+                        const icon = button.querySelector('i');
+                        icon.classList.remove('fa-copy');
+                        icon.classList.add('fa-check');
+                        
+                        const originalTitle = button.title;
+                        button.title = "Copied!";
+
+                        setTimeout(() => {
+                            icon.classList.remove('fa-check');
+                            icon.classList.add('fa-copy');
+                            button.title = originalTitle;
+                        }, 2000);
+
+                    }).catch(err => {
+                        console.error('Failed to copy URL: ', err);
+                        button.title = "Failed to copy!";
+                    });
+                });
+            });
         });
     </script>
-
 </body>
-</html>
+                </html>
